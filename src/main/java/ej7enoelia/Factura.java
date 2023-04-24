@@ -71,8 +71,15 @@ public class Factura {
 
     @Override
     public String toString() {
-        return "Factura{" + "codigo=" + codigo + ", fechaEmision=" + fechaEmision + ", descripcion=" + descripcion + ", totalImporteFactura=" + totalImporteFactura + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(codigo);
+        sb.append(";").append(fechaEmision);
+        sb.append(";").append(descripcion);
+        sb.append(";").append(totalImporteFactura);
+        return sb.toString();
     }
+
+    
 
     
     
