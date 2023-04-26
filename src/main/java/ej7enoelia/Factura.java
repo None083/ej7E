@@ -7,26 +7,29 @@ package ej7enoelia;
 import java.time.LocalDate;
 import java.util.Random;
 import java.util.stream.DoubleStream;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang3.RandomStringUtils;
 
-/**
- *
- * @author noelia
- */
+@XmlRootElement(name = "factura")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Factura {
     Random random = new Random();
     
     private String codigo;
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
     private LocalDate fechaEmision;
     private String descripcion;
     private double totalImporteFactura;
-    private int contador = 0;
-    private DoubleStream doubleSt = random.doubles(1, 100, 1000);
+    private static int contador = 1;
 
     public Factura() {
         this.codigo = String.valueOf(contador++);
         this.fechaEmision = LocalDate.now();
         this.descripcion = RandomStringUtils.randomAlphabetic(10, 21);
+        DoubleStream doubleSt = random.doubles(1, 100, 1000);
         this.totalImporteFactura = Math.round(doubleSt.sum());
     }
 
@@ -36,6 +39,7 @@ public class Factura {
         this.descripcion = descripcion;
         this.totalImporteFactura = totalImporteFactura;
     }
+
 
     public String getCodigo() {
         return codigo;

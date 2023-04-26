@@ -4,9 +4,11 @@
  */
 package ej7enoelia;
 
+
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 /**
  *
@@ -14,21 +16,30 @@ import java.util.List;
  */
 public class GenerarFicheros {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws JAXBException {
 
-        List<Factura> listaFacturas = new ArrayList<>();
+        ListaFacturas listaFacturas = new ListaFacturas();
 
-        for (int i = 0; i < 50; i++) {
-            listaFacturas.add(new Factura());
-        }
-
-        for (Factura f : listaFacturas) {
-            System.out.println(f);
-        }
-        
         ServiciosFicheros.crearDirectorio("xml");
         ServiciosFicheros.crearDirectorio("csv");
         
+        ServiciosFicheros.escrituraFactura("csv/facturas.csv", listaFacturas.getListaFacturas());
+        
+        JAXBContext contexto = JAXBContext.newInstance(ListaFacturas.class);
+        
+        Marshaller serializador = contexto.createMarshaller();
+        
+
+        serializador.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+
+        serializador.marshal(listaFacturas, System.out);
+
+        serializador.marshal(listaFacturas, new File("xml/facturas.xml"));
+        
+        ServiciosFicheros.crearDirectorio("facturascsv");
+        
+        ServiciosFicheros.guardarFacturasCsv(listaFacturas.getListaFacturas());
         
 
     }
